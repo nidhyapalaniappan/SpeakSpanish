@@ -1,3 +1,6 @@
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";  // Public CORS Proxy
+const apiUrl = "https://libretranslate.com/translate";  // LibreTranslate API
+
 document.getElementById("translateBtn").addEventListener("click", async function () {
     const inputWord = document.getElementById("inputWord").value.trim();
     const outputElement = document.getElementById("outputWord");
@@ -7,8 +10,6 @@ document.getElementById("translateBtn").addEventListener("click", async function
         return;
     }
 
-    // API: LibreTranslate (Free, No Key Required for localhost testing)
-    const url = "https://libretranslate.com/translate";
     const data = {
         q: inputWord,
         source: "en",
@@ -17,7 +18,7 @@ document.getElementById("translateBtn").addEventListener("click", async function
     };
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(proxyUrl + apiUrl, {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
@@ -26,7 +27,6 @@ document.getElementById("translateBtn").addEventListener("click", async function
         const result = await response.json();
         const translatedWord = result.translatedText;
 
-        // Display the translated word
         outputElement.textContent = translatedWord;
 
         // Speak the translated word after 5 seconds
